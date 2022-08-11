@@ -1,0 +1,25 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Fri Aug 12 03:08:11 2022
+# Process ID: 3173
+# Current directory: /home/godfly/lab/mylab/my_prj_git
+# Command line: vivado
+# Log file: /home/godfly/lab/mylab/my_prj_git/vivado.log
+# Journal file: /home/godfly/lab/mylab/my_prj_git/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /home/godfly/lab/mylab/vivado/tdse_vivado_prj/tdse_vivado_prj.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/godfly/lab/mylab/hls/tdse_hls_prj_vfixed/base_on_S5_4/impl'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/godfly/Xilinx/Vivado/2020.2/data/ip'.
+WARNING: [BD 41-1661] One or more IPs have been locked in the design 'system.bd'. Please run report_ip_status for more details and recommendations on how to fix this issue.
+List of locked IPs:
+system_tdse_0_0
+
+open_project: Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 7199.105 ; gain = 40.047 ; free physical = 3020 ; free virtual = 6701
+exit
+INFO: [Common 17-206] Exiting Vivado at Fri Aug 12 03:09:03 2022...

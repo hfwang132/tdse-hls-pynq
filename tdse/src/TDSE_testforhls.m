@@ -35,12 +35,12 @@ inipos_x = 1 / 3;  % initial position x
 i0 = gridnum_x*inipos_x;
 inipos_y = 1 / 2;  % initial position x
 j0 = gridnum_y*inipos_y;
-k = pi / (2 * dx); %  wavenumber -pi < k*dx < pi, -5pi < k < 5pi
+k = pi / (2 * dx); %  wavenumber -pi < k*dx < pi, 
 
 
 for i = 1 : gridnum_x
     for j = 1 : gridnum_y
-        psi(i,j) = exp(I*k*i*dx)*exp(-((i-i0)^2/(2*sigmai_x^2))-((j-j0)^2/(2*sigmai_y^2))) / (2*pi*sigmai_x*sigmai_y);  % Gaussian
+        psi(i,j) = exp(I*k*i*dx)*exp(-((i-i0)^2/(2*sigmai_x^2))-((j-j0)^2/(2*sigmai_y^2))) / sqrt(pi * sigmai_y * sigmai_x);  % Gaussian
     end
 end
 
@@ -55,11 +55,16 @@ for i = 1 : gridnum_x
     end
 end
 
+% for i = 1:gridnum_x
+%     for j = 1:gridnum_y
+%         V(i,j) = 0.01 * (i - 50) ^ 2 + 0.01 * (j - 50) ^ 2;
+%     end
+% end
+
 %==========
-norm = sum(sum(abs(psi)));  % check normalization
+norm = sum(sum(abs(psi).^2));  % check normalization
 
 psi_new = psi;  % initialize the new wave function
-
 iterstep = floor(time/tau);
 
 framenum = time;  % frame number of the movie
@@ -67,14 +72,26 @@ timestamp = floor(iterstep/framenum); l = 0;
 
 norm_change = zeros(iterstep,1);
 [X, Y] = meshgrid(1:gridnum_x,1:gridnum_y);
+
+R48 = [c48 I*s48; I*s48 c48];
+R3 = [c3 I*s3; I*s3 c3];
+vec = [0; 0];
 %======= employ the algorithm
 for k = 1 : iterstep
     %=======
     for i_ini = 1:4
         for i = i_ini:4:gridnum_x-2
             for j = 1:gridnum_y
-                psi_new(i,j) = psi_new(i,j)*c48 + I*psi_new(i+2,j)*s48;
-                psi_new(i+2,j) = I*psi_new(i,j)*s48 + psi_new(i+2,j)*c48;
+%                 psi_new(i,j) = psi_new(i,j)*c48 + I*psi_new(i+2,j)*s48;
+%                 psi_new(i+2,j) = I*psi_new(i,j)*s48 + psi_new(i+2,j)*c48;
+%                 psi_tmp_1 = psi_new(i,j);
+%                 psi_tmp_2 = psi_new(i+2,j);
+%                 psi_new(i,j) = psi_tmp_1*c48 + I*psi_tmp_2*s48;
+%                 psi_new(i+2,j) = I*psi_tmp_1*s48 + psi_tmp_2*c48;
+                vec_tmp = [psi_new(i,j); psi_new(i+2,j)];
+                vec = R48 * vec_tmp;
+                psi_new(i,j) = vec(1);
+                psi_new(i+2,j) = vec(2);
             end
         end
     end
@@ -82,8 +99,14 @@ for k = 1 : iterstep
     for i_ini = 1:2
         for i = i_ini:2:gridnum_x-1
             for j = 1:gridnum_y
-                psi_new(i,j) = psi_new(i,j)*c3 + I*psi_new(i+1,j)*s3;
-                psi_new(i+1,j) = I*psi_new(i,j)*s3 + psi_new(i+1,j)*c3;
+%                 psi_tmp_1 = psi_new(i,j);
+%                 psi_tmp_2 = psi_new(i+1,j);
+%                 psi_new(i,j) = psi_tmp_1*c3 + I*psi_tmp_2*s3;
+%                 psi_new(i+1,j) = I*psi_tmp_1*s3 + psi_tmp_2*c3;
+                vec_tmp = [psi_new(i,j); psi_new(i+1,j)];
+                vec = R3 * vec_tmp;
+                psi_new(i,j) = vec(1);
+                psi_new(i+1,j) = vec(2);
             end
         end
     end
@@ -91,8 +114,14 @@ for k = 1 : iterstep
     for j_ini = 1:4
         for j = j_ini:4:gridnum_y-2
             for i = 1:gridnum_x
-                psi_new(i,j) = psi_new(i,j)*c48 + I*psi_new(i,j+2)*s48;
-                psi_new(i,j+2) = I*psi_new(i,j)*s48 + psi_new(i,j+2)*c48;
+%                 psi_tmp_1 = psi_new(i,j);
+%                 psi_tmp_2 = psi_new(i,j+2);
+%                 psi_new(i,j) = psi_tmp_1*c48 + I*psi_tmp_2*s48;
+%                 psi_new(i,j+2) = I*psi_tmp_1*s48 + psi_tmp_2*c48;
+                vec_tmp = [psi_new(i,j); psi_new(i,j+2)];
+                vec = R48 * vec_tmp;
+                psi_new(i,j) = vec(1);
+                psi_new(i,j+2) = vec(2);
             end
         end
     end
@@ -100,16 +129,33 @@ for k = 1 : iterstep
     for j_ini = 1:2
         for j = j_ini:2:gridnum_y-1
             for i = 1:gridnum_x
-                psi_new(i,j) = psi_new(i,j)*c3 + I*psi_new(i,j+1)*s3;
-                psi_new(i,j+1) = I*psi_new(i,j)*s3 + psi_new(i,j+1)*c3;
+%                 psi_tmp_1 = psi_new(i,j);
+%                 psi_tmp_2 = psi_new(i,j+1);
+%                 psi_new(i,j) = psi_tmp_1*c3 + I*psi_tmp_2*s3;
+%                 psi_new(i,j+1) = I*psi_tmp_1*s3 +psi_tmp_2*c3;
+                vec_tmp = [psi_new(i,j); psi_new(i,j+1)];
+                vec = R3 * vec_tmp;
+                psi_new(i,j) = vec(1);
+                psi_new(i,j+1) = vec(2);
             end
         end
     end
     %=======
     for i = 1:gridnum_x
         for j = 1:gridnum_y
-            v60 = tau*(60*(-b48)+V(i,j));
-            psi_new(i,j) = exp(- I * v60) * psi_new(i,j);
+            v60 = - tau * (60 * (-b48) / tau + V(i,j));
+%             c60 = 1 - v60^2/2;
+%             s60 = v60;
+            c60 = cos(v60);
+            s60 = sin(v60);
+            psi_tmp_1 = real(psi_new(i,j));
+            psi_tmp_2 = imag(psi_new(i,j));
+
+            psi_new_re = psi_tmp_1 * c60 - psi_tmp_2 * s60;
+            psi_new_im = psi_tmp_1 * s60 + psi_tmp_2 * c60;
+            psi_new(i,j) = psi_new_re + I * psi_new_im;
+
+%             psi_new(i,j) = psi_new(i,j) * exp(I * v60);
         end
     end
     
@@ -127,7 +173,7 @@ for k = 1 : iterstep
         Movie(l) = getframe;
         disp(["frame: ", l])
 
-        norm_new = sum(sum(abs(psi_new)));
+        norm_new = sum(sum(abs(psi_new).^2));
         norm_change(k) = norm_new;
         disp(["norm: ", norm_new]); 
         disp(["c48 = ", c48]);

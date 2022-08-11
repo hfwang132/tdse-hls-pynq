@@ -75,9 +75,7 @@ int main()
 	fclose(f);
 
 	tdse(psi_re, psi_im, potential,
-			tau,
-			time,
-			dx
+			500
 			);
 
 	
