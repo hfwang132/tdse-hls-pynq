@@ -31,6 +31,7 @@
 - 100x100 格点上
 - 计算波包穿过小孔的衍射
 - 比软件实现快 200+ 倍
+- reference: De Raedt, Hans. "Computer simulation of quantum phenomena in nanoscale devices." Annual Reviews of Computational Physics IV (1996): 107-146.
 
 ## 注意
 
