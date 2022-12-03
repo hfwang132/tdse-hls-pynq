@@ -1,6 +1,6 @@
-# 2022 Xilinx Summer School Project
+# TDSE on PYNQ via HLS
 
-本仓库为 2022 Xilinx Summer School 的作业，目前实现了 DFT 和 TDSE。
+This is homework for 2022 AMD-Xilinx Summer School. DFT and TDSE have been realized on pynq.
 
 ## Repository Tree
 
@@ -20,20 +20,20 @@
 
 ```
 
-## DFT（离散傅里叶变换）
+## DFT (Discrete Fourier Transform)
 
-- 没有使用快速傅里叶变换算法
-- 比软件实现快10倍
+- not FFT
+- 10 times faster than software implementation
 
-## TDSE（含时薛定谔方程）
+## TDSE (Time-Dependent Schrodinger Equation)
 
-- 采用 Trotter-Suzuki 方法
-- 100x100 格点上
-- 计算波包穿过小孔的衍射
-- 比软件实现快 200+ 倍
+- Trotter-Suzuki Method
+- 100x100 lattice
+- Diffraction of a wave packet through a hole
+- 200+ times faster than software implementation
 - reference: De Raedt, Hans. "Computer simulation of quantum phenomena in nanoscale devices." Annual Reviews of Computational Physics IV (1996): 107-146.
 
 ## 注意
 
-- HLS 优化的编译指令部分在`directives.tcl`当中，而非在源代码中。这样做可以方便在 IDE 中调整和对比优化策略。
-- 本仓库的项目都基于 xc7z010clg400-1，而非 pynq-z2 所用的 xc7z020clg484-1
+- HLS pragmas are not in the source codes but in `directives.tcl, which is more convenient in IDE for comparison between different solutions.
+- Based on xc7z010clg400-1, not xc7z020clg484-1 in PYNQ-Z2.
