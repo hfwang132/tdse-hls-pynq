@@ -35,5 +35,5 @@ This is homework for 2022 AMD-Xilinx Summer School. DFT and TDSE have been reali
 
 ## Notes
 
-- HLS pragmas are not in the source codes but in `directives.tcl, which is more convenient in IDE for comparison between different solutions.
+- HLS pragmas are not in the source codes but in `directives.tcl`, which is more convenient in IDE for comparison between different solutions.
 - Based on xc7z010clg400-1, not xc7z020clg484-1 in PYNQ-Z2.
